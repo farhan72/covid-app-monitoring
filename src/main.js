@@ -5,6 +5,17 @@ import 'bulma/css/bulma.css';
 
 Vue.config.productionTip = false
 Vue.use(VueRouter)
+
+const routes = [
+  { path: "/", component: () => import('./components/pages/World') }
+];
+
+const router = new VueRouter({
+  mode: 'history',
+  routes
+});
+
 new Vue({
+  router,
   render: h => h(App),
 }).$mount('#app')

@@ -25,7 +25,7 @@
 
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-end">
-          <a class="navbar-item">Home</a>
+          <a class="navbar-item">World</a>
           <a class="navbar-item">Graphic</a>
         </div>
       </div>
