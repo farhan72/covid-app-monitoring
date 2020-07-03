@@ -25,12 +25,8 @@
 
       <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-end">
-          <a class="navbar-item">
-            Home
-          </a>
-          <a class="navbar-item">
-            Documentation
-          </a>
+          <a class="navbar-item">Home</a>
+          <a class="navbar-item">Graphic</a>
         </div>
       </div>
     </div>

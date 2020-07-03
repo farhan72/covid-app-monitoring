@@ -1,14 +1,19 @@
 <template>
-  <Header />
+  <div class="main">
+    <Header />
+    <Footer />
+  </div>
 </template>
 
 <script>
 import $ from "jquery";
 import Header from "../components/pages/Header";
+import Footer from "../components/pages/Footer";
 export default {
   name: "Layout",
   components: {
     Header,
+    Footer,
   },
   methods: {
     hamburgerMenu() {
@@ -28,4 +33,14 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.main {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+
+  .footer {
+    margin-top: auto;
+  }
+}
+</style>
