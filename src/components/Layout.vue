@@ -18,7 +18,7 @@ export default {
   name: "Layout",
   components: {
     Header,
-    Footer
+    Footer,
   },
   methods: {
     hamburgerMenu() {
@@ -30,23 +30,17 @@ export default {
           $(".navbar-menu").toggleClass("is-active");
         });
       });
-    }
+    },
   },
   created: function() {
     this.hamburgerMenu();
-  }
+  },
 };
 </script>
 
 <style lang="scss">
 @import "bulma/sass/utilities/_all.sass";
 @import "bulma/sass/utilities/mixins";
-
-@media (min-width: 768px) {
-  .chart {
-    transform: translateY(30%);
-  }
-}
 
 .main {
   display: flex;

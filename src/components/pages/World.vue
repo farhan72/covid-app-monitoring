@@ -31,7 +31,7 @@
                         summary.CountryCode +
                         '/flat/64.png'
                     "
-                    alt="Placeholder image"
+                    :alt="summary.Slug"
                   />
                   <div slot="placeholder">
                     Loading....
