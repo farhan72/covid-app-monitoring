@@ -1,13 +1,11 @@
 <template>
   <div class="main">
     <Header />
-    <div class="hero">
-      <div class="hero-body">
-        <div class="container">
-          <router-view></router-view>
-        </div>
+    <section class="section">
+      <div class="container">
+        <router-view></router-view>
       </div>
-    </div>
+    </section>
     <Footer />
   </div>
 </template>
@@ -44,22 +42,16 @@ export default {
 @import "bulma/sass/utilities/_all.sass";
 @import "bulma/sass/utilities/mixins";
 
-@include desktop {
-  .main .hero {
-    .container div {
-      transform: translateY(40%);
-    }
+@media (min-width: 768px) {
+  .chart {
+    transform: translateY(30%);
   }
 }
 
 .main {
   display: flex;
-  min-height: 100%;
+  min-height: 100vh;
   flex-direction: column;
-
-  .hero {
-    min-height: 100vh;
-  }
 
   .footer {
     margin-top: auto;
