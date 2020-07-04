@@ -34,7 +34,7 @@
                     :alt="summary.Slug"
                   />
                   <div slot="placeholder">
-                    Loading....
+                    <div id="image-item"></div>
                   </div>
                 </clazy-load>
               </figure>
@@ -139,7 +139,7 @@ export default {
 <style scoped>
 #image-item {
   width: 100%;
-  height: 100px;
+  height: 200px;
   animation: shimmer 1s infinite ease-in-out;
   -webkit-animation: shimmer 1s infinite ease-in-out;
 }
