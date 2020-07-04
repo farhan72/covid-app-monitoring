@@ -19,18 +19,10 @@
             <div class="card-image">
               <figure class="image is-4by2">
                 <clazy-load
-                  :src="
-                    'https://www.countryflags.io/' +
-                      summary.CountryCode +
-                      '/flat/64.png'
-                  "
+                  :src="'http://www.geognos.com/api/en/countries/flag/'+summary.CountryCode+'.png'"
                 >
                   <img
-                    :src="
-                      'https://www.countryflags.io/' +
-                        summary.CountryCode +
-                        '/flat/64.png'
-                    "
+                    :src="'http://www.geognos.com/api/en/countries/flag/'+summary.CountryCode+'.png'"
                     :alt="summary.Slug"
                   />
                   <div slot="placeholder">
@@ -52,42 +44,18 @@
                     Total Terkonfirmasi:
                     {{ formatNumber(summary.TotalConfirmed) }}
                   </li>
-                  <li>
-                    Konfirmasi Terbaru: {{ formatNumber(summary.NewConfirmed) }}
-                  </li>
+                  <li>Konfirmasi Terbaru: {{ formatNumber(summary.NewConfirmed) }}</li>
                   <li>Meninggal: {{ formatNumber(summary.NewDeaths) }}</li>
-                  <li>
-                    Total Meninggal: {{ formatNumber(summary.TotalDeaths) }}
-                  </li>
+                  <li>Total Meninggal: {{ formatNumber(summary.TotalDeaths) }}</li>
                   <li>Sembuh: {{ formatNumber(summary.NewRecovered) }}</li>
-                  <li>
-                    Total Sembuh: {{ formatNumber(summary.TotalRecovered) }}
-                  </li>
+                  <li>Total Sembuh: {{ formatNumber(summary.TotalRecovered) }}</li>
                 </ul>
               </div>
             </div>
           </div>
         </span>
         <span v-if="isLoad">
-          <div class="card">
-            <div class="card-image">
-              <figure class="image is-4by2">
-                <div id="image-item"></div>
-              </figure>
-            </div>
-            <div class="card-content">
-              <div class="media">
-                <div class="media-content has-text-centered">
-                  <div class="content-text"></div>
-                </div>
-              </div>
-              <div class="content">
-                <div class="content-text"></div>
-                <div class="content-text"></div>
-                <div class="content-text"></div>
-              </div>
-            </div>
-          </div>
+          <Shimmer />
         </span>
       </div>
     </div>
@@ -96,29 +64,20 @@
 
 <script>
 import axios from "axios";
+import Shimmer from "../libraries/Shimmer";
 
 export default {
   name: "World",
+  components: { Shimmer },
   data: () => ({
     summaryList: [],
     global: Object,
-    isLoad: true,
+    isLoad: true
   }),
   methods: {
-    async getCountryAffected() {
-      this.isLoad = true;
-      for (let i = 0; i <= 11; i++) {
-        this.summaryList.push(i);
-      }
-      await axios
-        .get(process.env.VUE_APP_COVID + `/summary`)
-        .then((response) => {
-          const data = response.data;
-          this.summaryList = data.Countries;
-          this.global = data.Global;
-        })
-        .catch((e) => console.log(e))
-        .finally(() => (this.isLoad = false));
+    getCountryAffected() {
+      this.setDefaultList();
+      this.fetchAPI();
     },
     formatNumber(num) {
       let number = null;
@@ -127,26 +86,29 @@ export default {
       }
       return number;
     },
+    setDefaultList() {
+      for (let i = 0; i <= 11; i++) {
+        this.summaryList.push(i);
+      }
+      return this.summaryList;
+    },
+    async fetchAPI() {
+      this.isLoad = true;
+      await axios
+        .get(process.env.VUE_APP_COVID + `/summary`)
+        .then(response => {
+          const data = response.data;
+          this.summaryList = data.Countries;
+          this.global = data.Global;
+        })
+        .catch(e => console.log(e))
+        .finally(() => (this.isLoad = false));
+    }
   },
   mounted() {
     this.getCountryAffected();
     const time = 1 * 24 * 60 * 60 * 1000;
     setInterval(() => this.getCountryAffected(), time);
-  },
+  }
 };
 </script>
-
-<style scoped>
-#image-item {
-  width: 100%;
-  height: 200px;
-  animation: shimmer 1s infinite ease-in-out;
-  -webkit-animation: shimmer 1s infinite ease-in-out;
-}
-.content-text {
-  width: 100%;
-  height: 10px;
-  animation: shimmer 1s infinite ease-in-out;
-  -webkit-animation: shimmer 1s infinite ease-in-out;
-}
-</style>
