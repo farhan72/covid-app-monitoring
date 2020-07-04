@@ -3,7 +3,8 @@
     <div class="container">
       <div class="navbar-brand">
         <router-link to="/" class="navbar-item">
-          <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" />
+          <img src="../../assets/covid-icon.svg" height="28" />
+          <b class="ml-2">COVID19</b>
         </router-link>
 
         <a
@@ -26,6 +27,7 @@
             :key="index"
             :to="route.path"
             class="navbar-item"
+            :active-class="$route.name == route.name ? 'is-active' : ''"
           >{{route.name}}</router-link>
         </div>
       </div>
