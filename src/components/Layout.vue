@@ -1,7 +1,11 @@
 <template>
   <div class="main">
     <Header />
-    <router-view></router-view>
+    <section class="section">
+      <div class="container">
+        <router-view></router-view>
+      </div>
+    </section>
     <Footer />
   </div>
 </template>
@@ -14,7 +18,7 @@ export default {
   name: "Layout",
   components: {
     Header,
-    Footer,
+    Footer
   },
   methods: {
     hamburgerMenu() {
@@ -26,11 +30,11 @@ export default {
           $(".navbar-menu").toggleClass("is-active");
         });
       });
-    },
+    }
   },
   created: function() {
     this.hamburgerMenu();
-  },
+  }
 };
 </script>
 

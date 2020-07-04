@@ -1,9 +1,5 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <line-chart :chartdata="chartData" :options="options" />
-    </div>
-  </section>
+  <line-chart :chartdata="chartData" :options="options" />
 </template>
 
 <script>
@@ -13,32 +9,35 @@ export default {
   components: { LineChart },
   data: () => ({
     chartData: {
-      labels: ["January"],
+      labels: ["Jan", "Feb", "Mar", "Apr", "May"],
       datasets: [
         {
           label: "Data One",
-          backgroundColor: "#f87979",
-          data: [20],
+          borderColor: "rgba(248, 121, 121, 0.5)",
+          backgroundColor: "transparent",
+          data: [300, 700, 450, 750, 450]
         },
         {
           label: "Data Two",
-          backgroundColor: "#dedede",
-          data: [15],
+          borderColor: "rgba(227, 152, 95, 0.5)",
+          backgroundColor: "transparent",
+          data: [600, 550, 750, 250, 300]
         },
         {
           label: "Data Three",
-          backgroundColor: "#f87979",
-          data: [40],
-        },
-      ],
+          borderColor: "rgba(95, 172, 227, 0.5)",
+          backgroundColor: "transparent",
+          data: [40, 60, 80, 100, 250]
+        }
+      ]
     },
     options: {
       responsive: true,
-      maintainAspectRatio: false,
-    },
+      maintainAspectRatio: false
+    }
   }),
-  async mounted() {
+  mounted() {
     this.chartData;
-  },
+  }
 };
 </script>
