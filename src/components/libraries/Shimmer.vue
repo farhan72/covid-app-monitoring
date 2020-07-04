@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="content">
-        <ul>
+        <ul class="shimmer-ul">
           <li class="content-text"></li>
           <li class="content-text"></li>
           <li class="content-text"></li>
@@ -36,7 +36,7 @@ export default {
   animation: shimmer 1s infinite ease-in-out;
   -webkit-animation: shimmer 1s infinite ease-in-out;
 }
-ul {
+.shimmer-ul {
   margin: 0 !important;
   padding: 0;
 }
