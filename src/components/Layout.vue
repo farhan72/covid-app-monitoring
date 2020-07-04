@@ -1,11 +1,13 @@
 <template>
   <div class="main">
     <Header />
-    <section class="section">
-      <div class="container">
-        <router-view></router-view>
+    <div class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <router-view></router-view>
+        </div>
       </div>
-    </section>
+    </div>
     <Footer />
   </div>
 </template>
@@ -38,11 +40,26 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import "bulma/sass/utilities/_all.sass";
+@import "bulma/sass/utilities/mixins";
+
+@include desktop {
+  .main .hero {
+    .container div {
+      transform: translateY(40%);
+    }
+  }
+}
+
 .main {
   display: flex;
-  min-height: 100vh;
+  min-height: 100%;
   flex-direction: column;
+
+  .hero {
+    min-height: 100vh;
+  }
 
   .footer {
     margin-top: auto;

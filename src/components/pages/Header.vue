@@ -20,9 +20,13 @@
       </div>
 
       <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-end">
-          <router-link to="/" class="navbar-item">World</router-link>
-          <router-link to="country" class="navbar-item">Graphic</router-link>
+        <div class="navbar-end" v-if="routes">
+          <router-link
+            v-for="(route, index) in routes"
+            :key="index"
+            :to="route.path"
+            class="navbar-item"
+          >{{route.name}}</router-link>
         </div>
       </div>
     </div>
@@ -31,6 +35,21 @@
 
 <script>
 export default {
-  name: "Header"
+  name: "Header",
+  data: () => ({
+    routes: []
+  }),
+  methods: {
+    getAllRoute() {
+      if (this.$router.options.routes) {
+        this.$router.options.routes.forEach(item => {
+          this.routes.push({ path: item.path, name: item.name });
+        });
+      }
+    }
+  },
+  created() {
+    this.getAllRoute();
+  }
 };
 </script>

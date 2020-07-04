@@ -7,8 +7,8 @@ Vue.config.productionTip = false
 Vue.use(VueRouter)
 
 const routes = [
-  { path: "/", component: () => import('./components/pages/World') },
-  { path: "/country", component: () => import('./components/pages/Country') },
+  { path: "/", name: "World", component: () => import('./components/pages/World') },
+  { path: "/country", name: "Country", component: () => import('./components/pages/Country') },
 ];
 
 const router = new VueRouter({
