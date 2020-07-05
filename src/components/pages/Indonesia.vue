@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="columns is-multiline mt-2 has-text-centered" v-if="dataIndonesia">
+    <div class="columns is-multiline mt-2 has-text-centered">
       <div class="column">
         <div class="notification is-primary">
           <h3 class="title">Jumlah Kasus</h3>
@@ -28,8 +28,8 @@
     </div>
     <div class="hero">
       <div class="hero-body">
-        <div class="container">
-          <DoughnutChart :chartData="dataPerProvinsi" :chartLabels="labelData" />
+        <div class="container" v-if="dataPerProvinsi.data">
+          <line-chart :dataLine="dataPerProvinsi.data"></line-chart>
         </div>
       </div>
     </div>
@@ -37,16 +37,14 @@
 </template>
 
 <script>
-import DoughnutChart from "../libraries/DoughnutChart";
+import LineChart from "../libraries/LineChart";
 import axios from "axios";
 
 export default {
   name: "Indonesia",
-  components: { DoughnutChart },
+  components: { LineChart },
   data: () => ({
-    dataIndonesia: Object,
-    dataProvinsi: [],
-    labelData: [],
+    dataIndonesia: [],
     dataPerProvinsi: []
   }),
   methods: {
@@ -56,17 +54,11 @@ export default {
         .then(response => (this.dataIndonesia = response.data))
         .catch(e => console.log(e));
     },
-    async ambilKasusPerProvinsi() {
-      await axios
+    getDataPerProvinsi() {
+      axios
         .get(process.env.VUE_APP_API_COVID_IND + "/provinsi")
-        .then(response => (this.dataProvinsi = response.data))
-        .catch(e => console.log(e))
-        .finally(() => {
-          this.dataProvinsi.data.map(item => {
-            this.labelData.push(item.provinsi);
-            this.dataPerProvinsi.push(item.kasusPosi);
-          });
-        });
+        .then(response => (this.dataPerProvinsi = response.data))
+        .catch(e => console.log(e));
     },
     formatNumber(num) {
       let number = null;
@@ -77,7 +69,7 @@ export default {
     },
     loadDataFromAPI() {
       this.getDataIndonesia();
-      this.ambilKasusPerProvinsi();
+      this.getDataPerProvinsi();
     }
   },
   created() {

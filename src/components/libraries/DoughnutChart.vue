@@ -1,18 +1,9 @@
 <script>
-import { Doughnut } from "vue-chartjs";
+import { Doughnut, mixins } from "vue-chartjs";
 
 export default {
   extends: Doughnut,
-  props: {
-    chartData: {
-      type: Array,
-      required: false
-    },
-    chartLabels: {
-      type: Array,
-      required: true
-    }
-  },
+  mixins: [mixins.reactiveData],
   data: () => ({
     options: {
       legend: {
@@ -22,27 +13,18 @@ export default {
       maintainAspectRatio: false
     }
   }),
+  props: ["data"],
   mounted() {
+    const chartLabels = this.data.map(item => item.provinsi);
+    const totalPositif = this.data.map(item => item.kasusPosi);
     this.renderChart(
       {
-        labels: this.chartLabels,
+        labels: chartLabels,
         datasets: [
           {
             borderWidth: 1,
-            borderColor: [
-              "rgba(255,99,132,1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(75, 192, 192, 1)"
-            ],
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)"
-            ],
-            data: this.chartData
+            backgroundColor: "rgba(153, 102, 255, 0.2)",
+            data: totalPositif
           }
         ]
       },
