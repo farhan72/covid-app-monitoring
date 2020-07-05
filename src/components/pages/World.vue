@@ -135,12 +135,14 @@ export default {
           const data = response.data;
           this.summaryList = data.Countries;
           this.global = data.Global;
+          if (this.summaryList) {
+            this.summaryList.sort((a, b) => b.NewConfirmed - a.NewConfirmed);
+          }
         })
         .catch(e => console.log(e))
         .finally(() => {
           this.isLoad = false;
           this.limitData(this.summaryList, 10);
-          this.sortBy("kasus_terbanyak");
         });
     },
     limitData(items, limit, offset = 1) {
