@@ -10,7 +10,7 @@ Vue.use(VueClazyLoad)
 
 const routes = [
   { path: "/", name: "Global", component: () => import('./components/pages/World') },
-  { path: "/country", name: "Country", component: () => import('./components/pages/Country') },
+  { path: "/country", name: "Indonesia", component: () => import('./components/pages/Indonesia') },
 ];
 
 const router = new VueRouter({
