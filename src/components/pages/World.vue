@@ -7,7 +7,7 @@
         <i class="fas fa-search"></i>
       </span>
     </div>
-    <div class="mt-2">
+    <div class="mt-5">
       <span>Urukan berdasarkan :</span>
       <div class="select ml-2">
         <select @change="sortBy($event.target.value)">
@@ -26,7 +26,7 @@
         v-for="(summary, index) in filteredData"
         :key="index"
       >
-        <span v-if="!isLoad">
+        <span v-show="!isLoad">
           <div class="card">
             <div class="card-image">
               <figure class="image is-4by2">
@@ -66,7 +66,7 @@
             </div>
           </div>
         </span>
-        <span v-if="isLoad">
+        <span v-show="isLoad">
           <Shimmer />
         </span>
       </div>
