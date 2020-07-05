@@ -11,7 +11,7 @@
     <div class="columns is-multiline mt-4">
       <div
         class="column is-one-quarter-desktop is-half-tablet"
-        v-for="(summary, index) in summaryList"
+        v-for="(summary, index) in summaryLimit"
         :key="index"
       >
         <span v-if="!isLoad">
@@ -58,6 +58,7 @@
           <Shimmer />
         </span>
       </div>
+      <observer v-on:intersect="intersected" />
     </div>
   </div>
 </template>
@@ -65,18 +66,28 @@
 <script>
 import axios from "axios";
 import Shimmer from "../libraries/Shimmer";
+import Observer from "../libraries/Observer";
 
 export default {
   name: "World",
-  components: { Shimmer },
+  components: { Shimmer, Observer },
   data: () => ({
     summaryList: [],
+    summaryLimit: [],
     global: Object,
+    limitItems: 10,
     isLoad: true
   }),
   methods: {
+    intersected() {
+      if (this.summaryLimit.length < this.summaryList.length) {
+        this.limitItems += 10;
+        this.limitData(this.summaryList, this.limitItems);
+      }
+    },
     getCountryAffected() {
       this.setDefaultList();
+      this.intersected();
       this.fetchAPI();
     },
     formatNumber(num) {
@@ -102,7 +113,17 @@ export default {
           this.global = data.Global;
         })
         .catch(e => console.log(e))
-        .finally(() => (this.isLoad = false));
+        .finally(() => {
+          this.isLoad = false;
+          this.limitData(this.summaryList, 10);
+        });
+    },
+    limitData(items, limit, offset = 1) {
+      offset--;
+      let start = limit * offset;
+      const end = start + limit;
+      let paginatedItems = items.slice(start, end);
+      return (this.summaryLimit = paginatedItems);
     }
   },
   mounted() {
