@@ -151,7 +151,7 @@ export default {
       return (this.summaryLimit = paginatedItems);
     },
     sortBy(value) {
-      helper.sorting(value, this.summaryLimit);
+      this.summaryLimit = helper.sorting(value, this.summaryList);
     }
   },
   mounted() {
