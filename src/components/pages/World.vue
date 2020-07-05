@@ -2,16 +2,28 @@
   <div>
     <!-- Search -->
     <div class="control has-icons-left has-icons-right">
-      <input class="input" type="email" placeholder="Search" />
+      <input class="input" type="email" placeholder="Search" v-model="searchkey" />
       <span class="icon is-small is-right">
         <i class="fas fa-search"></i>
       </span>
+    </div>
+    <div class="mt-2">
+      <span>Urukan berdasarkan :</span>
+      <div class="select ml-2">
+        <select @change="sortBy($event.target.value)">
+          <option
+            v-for="(sorting, index) in sortingItem"
+            :key="index"
+            :value="sorting.item"
+          >{{sorting.name}}</option>
+        </select>
+      </div>
     </div>
     <!--  -->
     <div class="columns is-multiline mt-4">
       <div
         class="column is-one-quarter-desktop is-half-tablet"
-        v-for="(summary, index) in summaryLimit"
+        v-for="(summary, index) in filteredData"
         :key="index"
       >
         <span v-if="!isLoad">
@@ -67,20 +79,33 @@
 import axios from "axios";
 import Shimmer from "../libraries/Shimmer";
 import Observer from "../libraries/Observer";
+import helper from "../libraries/helper";
 
 export default {
   name: "World",
   components: { Shimmer, Observer },
   data: () => ({
+    searchkey: "",
     summaryList: [],
     summaryLimit: [],
+    sortingItem: [
+      { item: "kasus_terbanyak", name: "Kasus Terbanyak" },
+      { item: "kasus_terkecil", name: "Kasus Terkecil" },
+      { item: "meninggal_terbanyak", name: "Kasus Meninggal Terbanyak" },
+      { item: "meninggal_terkecil", name: "Kasus Meninggal Terkecil" },
+      { item: "sembuh_terbanyak", name: "Kasus Sembuh Terbanyak" },
+      { item: "sembuh_terkecil", name: "Kasus Sembuh Terkecil" }
+    ],
     global: Object,
     limitItems: 10,
     isLoad: true
   }),
   methods: {
     intersected() {
-      if (this.summaryLimit.length < this.summaryList.length) {
+      if (
+        this.summaryLimit &&
+        this.summaryLimit.length < this.summaryList.length
+      ) {
         this.limitItems += 10;
         this.limitData(this.summaryList, this.limitItems);
       }
@@ -115,20 +140,35 @@ export default {
         .finally(() => {
           this.isLoad = false;
           this.limitData(this.summaryList, 10);
+          this.sortBy("kasus_terbanyak");
         });
     },
     limitData(items, limit, offset = 1) {
       offset--;
-      let start = limit * offset;
+      const start = limit * offset;
       const end = start + limit;
       let paginatedItems = items.slice(start, end);
       return (this.summaryLimit = paginatedItems);
+    },
+    sortBy(value) {
+      helper.sorting(value, this.summaryLimit);
     }
   },
   mounted() {
     this.getCountryAffected();
     const time = 1 * 24 * 60 * 60 * 1000;
     setInterval(() => this.getCountryAffected(), time);
+  },
+  computed: {
+    filteredData() {
+      let data = this.summaryLimit;
+      if (this.searchkey.length > 0) {
+        const arrow = summary =>
+          summary.Slug.match(this.searchkey.toLowerCase());
+        data = this.summaryList.filter(arrow);
+      }
+      return data;
+    }
   }
 };
 </script>
