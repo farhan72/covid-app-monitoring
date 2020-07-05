@@ -87,7 +87,6 @@ export default {
     },
     getCountryAffected() {
       this.setDefaultList();
-      this.intersected();
       this.fetchAPI();
     },
     formatNumber(num) {

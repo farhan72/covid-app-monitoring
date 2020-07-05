@@ -5,6 +5,9 @@
       <div class="container">
         <router-view></router-view>
       </div>
+      <button @click="scrollToTop" class="button is-dark is-rounded" id="scroll-up">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+      </button>
     </section>
     <Footer />
   </div>
@@ -18,7 +21,7 @@ export default {
   name: "Layout",
   components: {
     Header,
-    Footer,
+    Footer
   },
   methods: {
     hamburgerMenu() {
@@ -31,10 +34,22 @@ export default {
         });
       });
     },
+    scrollToTop() {
+      $("html, body").animate({ scrollTop: 0 }, 300);
+    },
+    toggleButtonScroll() {
+      if (window.scrollY > 60) {
+        $("#scroll-up").show();
+      } else {
+        $("#scroll-up").hide();
+      }
+    }
   },
-  created: function() {
+  mounted: function() {
+    $("#scroll-up").hide();
+    window.addEventListener("scroll", this.toggleButtonScroll);
     this.hamburgerMenu();
-  },
+  }
 };
 </script>
 
@@ -49,6 +64,26 @@ export default {
 
   .footer {
     margin-top: auto;
+  }
+}
+
+#scroll-up {
+  position: fixed;
+  right: 10px;
+  bottom: 20rem;
+  width: 4rem;
+  height: 4rem;
+  animation: fade 0.5s linear forwards;
+  -webkit-animation: fade 0.5s linear forwards;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
 </style>
