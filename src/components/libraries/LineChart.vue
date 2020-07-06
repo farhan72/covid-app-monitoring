@@ -33,8 +33,9 @@ export default {
     }
   }),
   mounted() {
-    const chartLabels = this.dataLine.map(item => item.provinsi);
-    const totalPositif = this.dataLine.map(item => item.kasusPosi);
+    const list = this.dataLine.filter(item => item.provinsi != "Indonesia");
+    const chartLabels = list.map(item => item.provinsi);
+    const totalPositif = list.map(item => item.kasusPosi);
     this.renderChart(
       {
         labels: chartLabels,
